@@ -1,44 +1,49 @@
-//? Создай плагин настраиваемого таймера, который ведет обратный
-//? отсчет до предварительно определенной даты.Такой плагин может
-//? использоваться в блогах и интернет - магазинах, страницах
-//? регистрации событий, во время технического обслуживания и т.д.
 
-//! Плагин ожидает следующую HTML - разметку и показывает четыре
-//! цифры: дни, часы, минуты и секунды в формате XX: XX: XX: XX.Количество
-//! дней может состоять из более чем двух цифр.
+// new CountdownTimer({
+//   selector: '#timer-1',
+//   targetDate: new Date('Jul 17, 2019'),
+// });
 
-//! Плагин это класс CountdownTimer, экземпляр
-//! которого создает новый таймер с настройками.
+const daysEl = document.querySelector('[data-value="days"]');
+const hoursEl = document.querySelector('[data-value="hours"]');
+const minutesEl = document.querySelector('[data-value="mins"]');
+const secondsEl = document.querySelector('[data-value="secs"]');
 
-new CountdownTimer({
-  selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
-});
+// const startTime = new Date(2019, 6, 17, 0, 0, 0);
 
-//! Для подсчета значений используй следующие готовые формулы, где
-//! time - разница между targetDate и текущей датой.
+const countdownTimer = {
+  start() {
+    const finalDate = new Date(2026, 6, 26, 0, 0, 0).getTime();
+    
+    setInterval(() => {
+      const currentDate = Date.now();
+      const differenceTime = finalDate - currentDate ;
+      const { days, hours, mins, secs } = createsTime(differenceTime);
+      console.log(`${days}:${hours}:${mins}:${secs}`);
+      displaysDate({ days, hours, mins, secs });
+    }, 1000);
 
-/*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-const days = Math.floor(time / (1000 * 60 * 60 * 24));
+  }
+}
+countdownTimer.start();
 
-/*
- * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
- * остатка % и делим его на количество миллисекунд в одном часе
- * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
- */
-const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+function padTime(value) {
+  return String(value).padStart(2, '0')
+}
 
-/*
- * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
- * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
- */
-const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+function createsTime(time) {
+  const days = padTime(Math.floor(time / (1000 * 60 * 60 * 24)));
+  const hours = padTime(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+  const mins = padTime(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+  const secs = padTime(Math.floor((time % (1000 * 60)) / 1000));
 
-/*
- * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
- * миллисекунд в одной секунде (1000)
- */
-const secs = Math.floor((time % (1000 * 60)) / 1000);
+  return { days, hours, mins, secs };
+}
+
+function displaysDate({ days, hours, mins, secs }) {
+  daysEl.textContent = `${days}`;
+  hoursEl.textContent = `${hours}`;
+  minutesEl.textContent = `${mins}`;
+  secondsEl.textContent = `${secs}`;
+}
+
