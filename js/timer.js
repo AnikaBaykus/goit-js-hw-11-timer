@@ -1,49 +1,49 @@
+class CountdownTimer {
+  constructor({ targetDate, selector }) {
+    this.targetDate = new Date(targetDate).getTime();
+    // console.log(this.targetDate);
+    // this.onTick = onTick;
+    this.selector = selector;
+    this.daysEl = document.querySelector(`${selector} span[data-value="days"]`);
+    this.hoursEl = document.querySelector(`${selector} span[data-value="hours"]`);
+    this.minutesEl = document.querySelector(`${selector} span[data-value="mins"]`);
+    this.secondsEl = document.querySelector(`${selector} span[data-value="secs"]`);
+  }
 
-// new CountdownTimer({
-//   selector: '#timer-1',
-//   targetDate: new Date('Jul 17, 2019'),
-// });
-
-const daysEl = document.querySelector('[data-value="days"]');
-const hoursEl = document.querySelector('[data-value="hours"]');
-const minutesEl = document.querySelector('[data-value="mins"]');
-const secondsEl = document.querySelector('[data-value="secs"]');
-
-// const startTime = new Date(2019, 6, 17, 0, 0, 0);
-
-const countdownTimer = {
   start() {
-    const finalDate = new Date(2026, 6, 26, 0, 0, 0).getTime();
-    
     setInterval(() => {
       const currentDate = Date.now();
-      const differenceTime = finalDate - currentDate ;
-      const { days, hours, mins, secs } = createsTime(differenceTime);
-      console.log(`${days}:${hours}:${mins}:${secs}`);
-      displaysDate({ days, hours, mins, secs });
+      const differenceTime = this.targetDate - currentDate;
+      // console.log(differenceTime)
+      this.createsTime(differenceTime);
     }, 1000);
+  };
 
-  }
-}
-countdownTimer.start();
+  padTime(value) {
+      return String(value).padStart(2, '0')
+  };
+  
+  createsTime(time) {
+      const days = this.padTime(Math.floor(time / (1000 * 60 * 60 * 24)));
+      const hours = this.padTime(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+      const mins = this.padTime(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+      const secs = this.padTime(Math.floor((time % (1000 * 60)) / 1000));
 
-function padTime(value) {
-  return String(value).padStart(2, '0')
-}
-
-function createsTime(time) {
-  const days = padTime(Math.floor(time / (1000 * 60 * 60 * 24)));
-  const hours = padTime(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-  const mins = padTime(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-  const secs = padTime(Math.floor((time % (1000 * 60)) / 1000));
-
-  return { days, hours, mins, secs };
-}
-
-function displaysDate({ days, hours, mins, secs }) {
-  daysEl.textContent = `${days}`;
-  hoursEl.textContent = `${hours}`;
-  minutesEl.textContent = `${mins}`;
-  secondsEl.textContent = `${secs}`;
+    this.displaysDate({ days, hours, mins, secs });
+  };
+  
+  displaysDate({ days, hours, mins, secs }) {
+      this.daysEl.textContent = `${days}`;
+      this.hoursEl.textContent = `${hours}`;
+      this.minutesEl.textContent = `${mins}`;
+      this.secondsEl.textContent = `${secs}`;
+  };
 }
 
+
+const countdownTimer1 = new CountdownTimer({
+  selector: '#timer-1',
+  targetDate: new Date('Dec 7, 2021'),
+});
+
+countdownTimer1.start();

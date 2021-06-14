@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding-top: 100px;
+  background-color: #ffedf3;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.timer {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.field {
+  display: inline-block;
+  padding: 8px;
+  min-width: 70px;
+  border-radius: 25px;
+  background-color: #d0f2d8;
+}
+.field:not(:last-child) {
+  margin-right: 15px;
+}
+
+.value {
+  font-size: 24px;
+  font-weight: bolder;
+  color: #394a2c;
+}
+
+.label {
+  display: block;
+  padding: 4px;
+  font-size: 14px;
+  color: #a3989c;
+}
