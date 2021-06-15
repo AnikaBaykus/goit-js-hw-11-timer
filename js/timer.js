@@ -8,6 +8,7 @@ class CountdownTimer {
     this.hoursEl = document.querySelector(`${selector} span[data-value="hours"]`);
     this.minutesEl = document.querySelector(`${selector} span[data-value="mins"]`);
     this.secondsEl = document.querySelector(`${selector} span[data-value="secs"]`);
+    this.start();
   }
 
   start() {
@@ -38,6 +39,7 @@ class CountdownTimer {
       this.minutesEl.textContent = `${mins}`;
       this.secondsEl.textContent = `${secs}`;
   };
+
 }
 
 
@@ -46,4 +48,4 @@ const countdownTimer1 = new CountdownTimer({
   targetDate: new Date('Dec 7, 2021'),
 });
 
-countdownTimer1.start();
+
